@@ -3,10 +3,11 @@ module HexMath exposing (cleanInput, main)
 import Browser
 import Css exposing (fontFamilies, monospace)
 import Hex exposing (fromHex, toHex)
-import Html.Styled exposing (Html, div, form, h1, h2, input, text, toUnstyled)
+import Html.Styled exposing (Html, div, form, h2, input, text, toUnstyled)
 import Html.Styled.Attributes exposing (css, value)
 import Html.Styled.Events exposing (..)
 import Random
+import Tailwind.Breakpoints as Breakpoints
 import Tailwind.Theme as Tw
 import Tailwind.Utilities as Tw
 
@@ -45,8 +46,7 @@ view : Model -> Html Msg
 view model =
     div []
         [ viewScore model.score
-        , viewValue model.valA
-        , viewValue model.valB
+        , viewProblem ( model.valA, model.valB )
         , viewInput model.input
         , viewAnswer model.answer
         ]
@@ -67,9 +67,21 @@ gameFont =
     fontFamilies [ "courier", .value monospace ]
 
 
+viewProblem : ( Int, Int ) -> Html Msg
+viewProblem ( valA, valB ) =
+    let
+        styles =
+            css [ Tw.w_fit, Tw.text_right, Tw.uppercase, gameFont, Tw.text_3xl, Breakpoints.lg [ Tw.text_6xl ] ]
+    in
+    div [ styles ]
+        [ viewValue valA
+        , div [] [ text "+", viewValue valB ]
+        ]
+
+
 viewValue : Int -> Html Msg
 viewValue n =
-    h1 [ css [ Tw.uppercase, gameFont ] ] [ text (formatHex n) ]
+    text (formatHex n)
 
 
 viewInput : String -> Html Msg
