@@ -2,6 +2,7 @@ module HexMath exposing (cleanInput, main)
 
 import Browser
 import Css exposing (fontFamilies, monospace)
+import Css.Global
 import Hex exposing (fromHex, toHex)
 import Html.Styled exposing (Html, div, form, h2, input, text, toUnstyled)
 import Html.Styled.Attributes exposing (css, value)
@@ -45,10 +46,25 @@ init _ =
 view : Model -> Html Msg
 view model =
     div []
-        [ viewScore model.score
-        , viewProblem ( model.valA, model.valB )
-        , viewInput model.input
-        , viewAnswer model.answer
+        [ Css.Global.global Tw.globalStyles
+        , div
+            [ css
+                [ Tw.flex
+                , Tw.flex_col
+                , Tw.items_center
+                , Tw.text_2xl
+                , Breakpoints.lg [ Tw.text_5xl, Tw.gap_1 ]
+                , Tw.w_full
+                , Tw.h_screen
+                , Tw.content_center
+                , Tw.justify_around
+                ]
+            ]
+            [ viewScore model.score
+            , viewProblem ( model.valA, model.valB )
+            , viewInput model.input
+            , viewAnswer model.answer
+            ]
         ]
 
 
