@@ -83,7 +83,7 @@ viewAnswer : Maybe Answer -> Html Msg
 viewAnswer maybeAnswer =
     case maybeAnswer of
         Just answer ->
-            h2 [] [ text (answerStr answer) ]
+            h2 [ css [ Tw.uppercase, gameFont ] ] [ text (answerStr answer) ]
 
         Nothing ->
             text ""
