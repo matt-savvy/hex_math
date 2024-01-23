@@ -144,7 +144,7 @@ answerStr : Answer -> String
 answerStr ( correct, solution ) =
     let
         solutionHex =
-            toHex solution
+            formatHex solution
     in
     if correct then
         solutionHex ++ " is correct!"
