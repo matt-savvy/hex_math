@@ -69,7 +69,7 @@ gameFont =
 
 viewValue : Int -> Html Msg
 viewValue n =
-    h1 [] [ text (formatHex n) ]
+    h1 [ css [ Tw.uppercase, gameFont ] ] [ text (formatHex n) ]
 
 
 viewInput : String -> Html Msg
