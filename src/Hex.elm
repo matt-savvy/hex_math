@@ -1,4 +1,4 @@
-module Hex exposing (toHex)
+module Hex exposing (fromHex, toHex)
 
 
 toHex : Int -> String
@@ -51,3 +51,58 @@ toHexVal n =
         (65 + (n - 10))
             |> Char.fromCode
             |> String.fromChar
+
+
+fromHex : String -> Maybe Int
+fromHex str =
+    str
+        |> String.toUpper
+        |> String.toList
+        |> List.reverse
+        |> fromHexHelper 0 0
+
+
+fromHexHelper : Int -> Int -> List Char -> Maybe Int
+fromHexHelper exp sum lst =
+    case lst of
+        [] ->
+            Just sum
+
+        head :: rest ->
+            hexVal head
+                |> Maybe.andThen
+                    (\val ->
+                        fromHexHelper (exp + 1) (sum + (val * 16 ^ exp)) rest
+                    )
+
+
+codePointA : Int
+codePointA =
+    65
+
+
+codePointF : Int
+codePointF =
+    71
+
+
+codePoint0 : Int
+codePoint0 =
+    48
+
+
+hexVal : Char -> Maybe Int
+hexVal char =
+    if Char.isHexDigit char then
+        let
+            code =
+                Char.toCode char
+        in
+        if code >= codePointA && code <= codePointF then
+            Just (code - codePointA + 10)
+
+        else
+            Just (code - codePoint0)
+
+    else
+        Nothing

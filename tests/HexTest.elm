@@ -2,7 +2,7 @@ module HexTest exposing (..)
 
 import Expect
 import Fuzz exposing (..)
-import Hex exposing (toHex)
+import Hex exposing (fromHex, toHex)
 import Test exposing (..)
 
 
@@ -34,5 +34,17 @@ suite =
                 \_ -> Expect.equal "18" (toHex 24)
             , test "538" <|
                 \_ -> Expect.equal "21A" (toHex 538)
+            ]
+        , describe "fromHex"
+            [ fuzz (intRange 0 9) "0-9" <|
+                \n -> Expect.equal (fromHex (String.fromInt n)) (Just n)
+            , test "F" <|
+                \_ -> Expect.equal (fromHex "F") (Just 15)
+            , test "0F" <|
+                \_ -> Expect.equal (fromHex "0F") (Just 15)
+            , test "3B" <|
+                \_ -> Expect.equal (fromHex "3B") (Just 59)
+            , test "206" <|
+                \_ -> Expect.equal (fromHex "206") (Just 518)
             ]
         ]
