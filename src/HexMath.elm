@@ -1,8 +1,8 @@
 module HexMath exposing (cleanInput, main)
 
 import Browser
-import Hex exposing (toHex)
-import Html exposing (Html, div, h1, input, text)
+import Hex exposing (fromHex, toHex)
+import Html exposing (Html, div, form, h1, h2, input, text)
 import Html.Attributes exposing (value)
 import Html.Events exposing (..)
 import Random
@@ -12,18 +12,23 @@ import Random
 -- MODEL
 
 
+type alias Answer =
+    ( Bool, Int )
+
+
 type alias Model =
-    { valA : Int, valB : Int, input : String }
+    { valA : Int, valB : Int, input : String, answer : Maybe Answer }
 
 
 type Msg
     = GotNewValue ( Int, Int )
     | GotInput String
+    | GotSubmit
 
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { valA = 8, valB = 6, input = "" }
+    ( { valA = 8, valB = 6, input = "", answer = Nothing }
     , generateValuesCommand
     )
 
@@ -34,6 +39,7 @@ view model =
         [ viewValue model.valA
         , viewValue model.valB
         , viewInput model.input
+        , viewAnswer model.answer
         ]
 
 
@@ -49,7 +55,32 @@ viewValue n =
 
 viewInput : String -> Html Msg
 viewInput inputStr =
-    input [ onInput GotInput, value inputStr ] []
+    form [ onSubmit GotSubmit ]
+        [ input [ onInput GotInput, value inputStr ] []
+        ]
+
+
+viewAnswer : Maybe Answer -> Html Msg
+viewAnswer maybeAnswer =
+    case maybeAnswer of
+        Just answer ->
+            h2 [] [ text (answerStr answer) ]
+
+        Nothing ->
+            text ""
+
+
+answerStr : Answer -> String
+answerStr ( correct, solution ) =
+    let
+        solutionHex =
+            toHex solution
+    in
+    if correct then
+        solutionHex ++ " is correct!"
+
+    else
+        "incorrect, answer is " ++ solutionHex
 
 
 
@@ -74,6 +105,20 @@ update msg model =
         GotInput str ->
             ( { model | input = cleanInput str }, Cmd.none )
 
+        GotSubmit ->
+            let
+                answer =
+                    fromHex model.input
+                        |> Maybe.map
+                            (getAnswer model.valA model.valB)
+            in
+            case answer of
+                Just ( True, _ ) ->
+                    ( { model | answer = answer, input = "" }, generateValuesCommand )
+
+                _ ->
+                    ( { model | answer = answer, input = "" }, Cmd.none )
+
 
 cleanInput : String -> String
 cleanInput input =
@@ -90,6 +135,15 @@ generateValuesCommand =
             Random.int 0 15
     in
     Random.generate GotNewValue (Random.pair randomHex randomHex)
+
+
+getAnswer : Int -> Int -> Int -> Answer
+getAnswer valA valB inputSolution =
+    let
+        solution =
+            valA + valB
+    in
+    ( solution == inputSolution, solution )
 
 
 main : Program () Model Msg
