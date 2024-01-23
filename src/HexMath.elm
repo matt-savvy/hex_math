@@ -108,7 +108,7 @@ viewInput inputStr =
                 [ Tw.uppercase
                 , Tw.w_24
                 , gameFont
-                , Tw.text_xl
+                , Tw.text_2xl
                 , Tw.tracking_widest
                 , Tw.my_2
                 , Tw.block
