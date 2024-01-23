@@ -75,7 +75,20 @@ formatHex n =
 
 viewScore : Int -> Html Msg
 viewScore score =
-    h2 [ css [ Tw.uppercase, gameFont ] ] [ text ("Score: " ++ formatHex score) ]
+    div []
+        [ h2 [ css [ Tw.uppercase, gameFont ] ] [ text ("Score: " ++ formatHex score) ]
+        , instructions
+        ]
+
+
+instructions : Html Msg
+instructions =
+    infoText "Add the hexidecimal numbers."
+
+
+infoText : String -> Html Msg
+infoText info =
+    div [ css [ Tw.text_xl, Tw.text_center ] ] [ text info ]
 
 
 gameFont : Css.Style
