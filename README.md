@@ -9,5 +9,5 @@ Practice your hexidecimal arithmetic.
 nix-shell .
 
 # build
-elm make src/HexMath.elm
+elm make src/HexMath.elm --output=hexMath.js --optimize
 ```
