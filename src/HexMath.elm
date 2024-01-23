@@ -1,11 +1,14 @@
 module HexMath exposing (cleanInput, main)
 
 import Browser
+import Css exposing (fontFamilies, monospace)
 import Hex exposing (fromHex, toHex)
 import Html.Styled exposing (Html, div, form, h1, h2, input, text, toUnstyled)
-import Html.Styled.Attributes exposing (value)
+import Html.Styled.Attributes exposing (css, value)
 import Html.Styled.Events exposing (..)
 import Random
+import Tailwind.Theme as Tw
+import Tailwind.Utilities as Tw
 
 
 
@@ -56,7 +59,12 @@ formatHex n =
 
 viewScore : Int -> Html Msg
 viewScore score =
-    div [] [ text ("Score: " ++ formatHex score) ]
+    h2 [ css [ Tw.uppercase, gameFont ] ] [ text ("Score: " ++ formatHex score) ]
+
+
+gameFont : Css.Style
+gameFont =
+    fontFamilies [ "courier", .value monospace ]
 
 
 viewValue : Int -> Html Msg
