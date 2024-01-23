@@ -5,7 +5,7 @@ import Css exposing (fontFamilies, monospace)
 import Css.Global
 import Hex exposing (fromHex, toHex)
 import Html.Styled exposing (Html, div, form, h2, input, text, toUnstyled)
-import Html.Styled.Attributes exposing (css, value)
+import Html.Styled.Attributes exposing (autofocus, css, value)
 import Html.Styled.Events exposing (onInput, onSubmit)
 import Random
 import Tailwind.Breakpoints as Breakpoints
@@ -122,7 +122,7 @@ viewInput inputStr =
                 ]
     in
     form [ onSubmit GotSubmit ]
-        [ input [ onInput GotInput, value inputStr, styles ] []
+        [ input [ autofocus True, onInput GotInput, value inputStr, styles ] []
         ]
 
 
