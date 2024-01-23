@@ -5,7 +5,7 @@ import Css exposing (fontFamilies, monospace)
 import Hex exposing (fromHex, toHex)
 import Html.Styled exposing (Html, div, form, h2, input, text, toUnstyled)
 import Html.Styled.Attributes exposing (css, value)
-import Html.Styled.Events exposing (..)
+import Html.Styled.Events exposing (onInput, onSubmit)
 import Random
 import Tailwind.Breakpoints as Breakpoints
 import Tailwind.Theme as Tw
