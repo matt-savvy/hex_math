@@ -86,8 +86,27 @@ viewValue n =
 
 viewInput : String -> Html Msg
 viewInput inputStr =
+    let
+        styles =
+            css
+                [ Tw.uppercase
+                , Tw.w_24
+                , gameFont
+                , Tw.text_xl
+                , Tw.tracking_widest
+                , Tw.my_2
+                , Tw.block
+                , Tw.text_right
+                , Tw.rounded_md
+                , Tw.border_2
+                , Tw.border_color Tw.gray_400
+                , Tw.px_4
+                , Tw.py_2
+                , Tw.text_color Tw.gray_900
+                ]
+    in
     form [ onSubmit GotSubmit ]
-        [ input [ onInput GotInput, value inputStr, css [ Tw.uppercase, gameFont ] ] []
+        [ input [ onInput GotInput, value inputStr, styles ] []
         ]
 
 
