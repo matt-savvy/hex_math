@@ -75,7 +75,7 @@ viewValue n =
 viewInput : String -> Html Msg
 viewInput inputStr =
     form [ onSubmit GotSubmit ]
-        [ input [ onInput GotInput, value inputStr ] []
+        [ input [ onInput GotInput, value inputStr, css [ Tw.uppercase, gameFont ] ] []
         ]
 
 
