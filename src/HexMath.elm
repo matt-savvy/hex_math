@@ -128,12 +128,16 @@ viewInput inputStr =
 
 viewAnswer : Maybe Answer -> Html Msg
 viewAnswer maybeAnswer =
-    case maybeAnswer of
-        Just answer ->
-            h2 [ css [ Tw.uppercase, gameFont ] ] [ text (answerStr answer) ]
+    let
+        answerBody =
+            case maybeAnswer of
+                Just answer ->
+                    text (answerStr answer)
 
-        Nothing ->
-            text ""
+                Nothing ->
+                    text ""
+    in
+    div [ css [ Tw.h_24, Tw.uppercase, gameFont ] ] [ answerBody ]
 
 
 answerStr : Answer -> String
