@@ -2,7 +2,7 @@ module HexMath exposing (cleanInput, main)
 
 import Browser
 import Hex exposing (fromHex, toHex)
-import Html exposing (Html, div, form, h1, h2, input, text)
+import Html exposing (Html, div, form, h1, h2, h3, input, text)
 import Html.Attributes exposing (value)
 import Html.Events exposing (..)
 import Random
@@ -17,7 +17,12 @@ type alias Answer =
 
 
 type alias Model =
-    { valA : Int, valB : Int, input : String, answer : Maybe Answer }
+    { valA : Int
+    , valB : Int
+    , input : String
+    , answer : Maybe Answer
+    , score : Int
+    }
 
 
 type Msg
@@ -28,7 +33,7 @@ type Msg
 
 init : () -> ( Model, Cmd Msg )
 init _ =
-    ( { valA = 8, valB = 6, input = "", answer = Nothing }
+    ( { valA = 8, valB = 6, input = "", answer = Nothing, score = 0 }
     , generateValuesCommand
     )
 
@@ -36,7 +41,8 @@ init _ =
 view : Model -> Html Msg
 view model =
     div []
-        [ viewValue model.valA
+        [ viewScore model.score
+        , viewValue model.valA
         , viewValue model.valB
         , viewInput model.input
         , viewAnswer model.answer
@@ -46,6 +52,11 @@ view model =
 formatHex : Int -> String
 formatHex n =
     n |> toHex |> String.padLeft 2 '0'
+
+
+viewScore : Int -> Html Msg
+viewScore score =
+    div [] [ text ("Score: " ++ formatHex score) ]
 
 
 viewValue : Int -> Html Msg
@@ -114,7 +125,7 @@ update msg model =
             in
             case answer of
                 Just ( True, _ ) ->
-                    ( { model | answer = answer, input = "" }, generateValuesCommand )
+                    ( { model | answer = answer, input = "", score = model.score + 1 }, generateValuesCommand )
 
                 _ ->
                     ( { model | answer = answer, input = "" }, Cmd.none )
