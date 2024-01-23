@@ -6,6 +6,11 @@ import Hex exposing (fromHex, toHex)
 import Test exposing (..)
 
 
+maxSafe : Int
+maxSafe =
+    (2 ^ 31) - 1
+
+
 suite : Test
 suite =
     describe "Hex"
@@ -34,6 +39,12 @@ suite =
                 \_ -> Expect.equal "18" (toHex 0x18)
             , test "0x21A" <|
                 \_ -> Expect.equal "21A" (toHex 0x021A)
+            , test "max safe" <|
+                \_ -> Expect.equal "7FFFFFFF" (toHex maxSafe)
+            , fuzz (intRange 0 maxSafe) "is all hex digits" <|
+                \n ->
+                    Expect.equal True
+                        (String.all Char.isHexDigit (toHex n))
             ]
         , describe "fromHex"
             [ fuzz (intRange 0 9) "0-9" <|
