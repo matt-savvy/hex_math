@@ -2,9 +2,9 @@ module HexMath exposing (cleanInput, main)
 
 import Browser
 import Hex exposing (fromHex, toHex)
-import Html exposing (Html, div, form, h1, h2, h3, input, text)
-import Html.Attributes exposing (value)
-import Html.Events exposing (..)
+import Html.Styled exposing (Html, div, form, h1, h2, input, text, toUnstyled)
+import Html.Styled.Attributes exposing (value)
+import Html.Styled.Events exposing (..)
 import Random
 
 
@@ -162,6 +162,6 @@ main =
     Browser.element
         { init = init
         , subscriptions = subscriptions
-        , view = view
+        , view = view >> toUnstyled
         , update = update
         }
