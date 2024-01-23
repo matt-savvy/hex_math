@@ -132,7 +132,7 @@ generateValuesCommand =
     let
         randomHex : Random.Generator Int
         randomHex =
-            Random.int 0 15
+            Random.int 1 15
     in
     Random.generate GotNewValue (Random.pair randomHex randomHex)
 
