@@ -1,4 +1,4 @@
-module HexMath exposing (cleanInput, main)
+module HexMath exposing (Msg(..), cleanInput, main, update)
 
 import Browser
 import Css exposing (fontFamilies, monospace)
@@ -177,18 +177,22 @@ update msg model =
             ( { model | input = cleanInput str }, Cmd.none )
 
         GotSubmit ->
-            let
-                answer =
-                    fromHex model.input
-                        |> Maybe.map
-                            (getAnswer model.valA model.valB)
-            in
-            case answer of
-                Just (Correct _) ->
-                    ( { model | answer = answer, input = "", score = model.score + 1 }, generateValuesCommand )
+            if model.input == "" then
+                ( model, Cmd.none )
 
-                _ ->
-                    ( { model | answer = answer, input = "" }, Cmd.none )
+            else
+                let
+                    answer =
+                        fromHex model.input
+                            |> Maybe.map
+                                (getAnswer model.valA model.valB)
+                in
+                case answer of
+                    Just (Correct _) ->
+                        ( { model | answer = answer, input = "", score = model.score + 1 }, generateValuesCommand )
+
+                    _ ->
+                        ( { model | answer = answer, input = "" }, Cmd.none )
 
 
 cleanInput : String -> String
