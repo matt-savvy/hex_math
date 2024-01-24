@@ -26,8 +26,9 @@ type alias Model =
     }
 
 
-type alias Answer =
-    ( Bool, Int )
+type Answer
+    = Correct Int
+    | Incorrect Int
 
 
 type Msg
@@ -153,16 +154,13 @@ viewAnswer maybeAnswer =
 
 
 answerStr : Answer -> String
-answerStr ( correct, solution ) =
-    let
-        solutionHex =
-            formatHex solution
-    in
-    if correct then
-        solutionHex ++ " is correct!"
+answerStr answer =
+    case answer of
+        Correct solution ->
+            formatHex solution ++ " is correct!"
 
-    else
-        "incorrect, answer is " ++ solutionHex
+        Incorrect solution ->
+            "incorrect, answer is " ++ formatHex solution
 
 
 
@@ -186,7 +184,7 @@ update msg model =
                             (getAnswer model.valA model.valB)
             in
             case answer of
-                Just ( True, _ ) ->
+                Just (Correct _) ->
                     ( { model | answer = answer, input = "", score = model.score + 1 }, generateValuesCommand )
 
                 _ ->
@@ -216,7 +214,11 @@ getAnswer valA valB inputSolution =
         solution =
             valA + valB
     in
-    ( solution == inputSolution, solution )
+    if solution == inputSolution then
+        Correct solution
+
+    else
+        Incorrect solution
 
 
 
