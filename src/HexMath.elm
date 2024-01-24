@@ -166,15 +166,6 @@ answerStr ( correct, solution ) =
 
 
 
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
-
-
-
 -- UPDATE
 
 
@@ -226,6 +217,19 @@ getAnswer valA valB inputSolution =
             valA + valB
     in
     ( solution == inputSolution, solution )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
+
+
+
+-- MAIN
 
 
 main : Program () Model Msg
