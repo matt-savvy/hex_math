@@ -22,15 +22,15 @@ toHex n =
 
 toHexDigits : List Int -> Int -> Int -> List Int
 toHexDigits acc n exp =
-    if exp >= 0 then
+    if exp < 0 then
+        acc
+
+    else
         let
             values =
                 n // (16 ^ exp)
         in
         toHexDigits (values :: acc) (modBy (16 ^ exp) n) (exp - 1)
-
-    else
-        acc
 
 
 toHexVal : Int -> String
