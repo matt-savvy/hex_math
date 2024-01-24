@@ -43,6 +43,10 @@ init _ =
     )
 
 
+
+-- VIEW
+
+
 view : Model -> Html Msg
 view model =
     div []
@@ -83,12 +87,7 @@ viewScore score =
 
 instructions : Html Msg
 instructions =
-    infoText "Add the hexidecimal numbers."
-
-
-infoText : String -> Html Msg
-infoText info =
-    div [ css [ Tw.text_xl, Tw.text_center ] ] [ text info ]
+    div [ css [ Tw.text_xl, Tw.text_center ] ] [ text "Add the hexidecimal numbers." ]
 
 
 gameFont : Css.Style
