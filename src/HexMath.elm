@@ -17,10 +17,6 @@ import Tailwind.Utilities as Tw
 -- MODEL
 
 
-type alias Answer =
-    ( Bool, Int )
-
-
 type alias Model =
     { valA : Int
     , valB : Int
@@ -28,6 +24,10 @@ type alias Model =
     , answer : Maybe Answer
     , score : Int
     }
+
+
+type alias Answer =
+    ( Bool, Int )
 
 
 type Msg
