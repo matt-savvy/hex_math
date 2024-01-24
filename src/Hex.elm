@@ -5,7 +5,11 @@ toHex : Int -> String
 toHex n =
     let
         exponent =
-            highestExponent n 0
+            n
+                |> toFloat
+                |> logBase 16
+                |> floor
+                |> max 0
 
         digits =
             toHexDigits [] n exponent
@@ -14,19 +18,6 @@ toHex n =
         |> List.reverse
         |> List.map toHexVal
         |> String.join ""
-
-
-highestExponent : Int -> Int -> Int
-highestExponent n exp =
-    let
-        values =
-            n // (16 ^ exp)
-    in
-    if values < 16 then
-        exp
-
-    else
-        highestExponent n (exp + 1)
 
 
 toHexDigits : List Int -> Int -> Int -> List Int
